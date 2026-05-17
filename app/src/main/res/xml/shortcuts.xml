@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="add_patient"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_add"
+        android:shortcutShortLabel="@string/shortcut_add_patient_short"
+        android:shortcutLongLabel="@string/shortcut_add_patient_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.swarapulse"
+            android:targetClass="com.swarapulse.MainActivity">
+            <extra android:name="shortcut_action" android:value="add_patient" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="todays_schedule"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_today"
+        android:shortcutShortLabel="@string/shortcut_schedule_short"
+        android:shortcutLongLabel="@string/shortcut_schedule_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.swarapulse"
+            android:targetClass="com.swarapulse.MainActivity">
+            <extra android:name="shortcut_action" android:value="todays_schedule" />
+        </intent>
+    </shortcut>
+</shortcuts>

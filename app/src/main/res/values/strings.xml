@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SwaraPulse</string>
+    <string name="shortcut_add_patient_short">Add Patient</string>
+    <string name="shortcut_add_patient_long">Add a new patient</string>
+    <string name="shortcut_schedule_short">Schedule</string>
+    <string name="shortcut_schedule_long">View today\'s schedule</string>
+</resources>
