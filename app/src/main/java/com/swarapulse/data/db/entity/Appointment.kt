@@ -1,12 +1,14 @@
 package com.swarapulse.data.db.entity
 
 import androidx.room.Entity
+import kotlinx.serialization.Serializable
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.swarapulse.domain.model.AppointmentStatus
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
+@Serializable
 @Entity(
     tableName = "appointments",
     foreignKeys = [ForeignKey(entity = Patient::class,
