@@ -3,7 +3,6 @@ package com.swarapulse
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Text
 import dagger.hilt.android.AndroidEntryPoint
 import com.swarapulse.presentation.theme.SwaraPulseTheme
 
@@ -13,7 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SwaraPulseTheme {
-                Text("SwaraPulse App Scaffold")
+                SwaraPulseNavigation()
             }
         }
     }
