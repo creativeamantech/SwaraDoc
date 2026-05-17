@@ -21,6 +21,6 @@ interface PatientDao {
     @Delete
     suspend fun deletePatient(patient: Patient)
 
-    @Query("SELECT * FROM patients WHERE name LIKE '%' || :query || '%'")
+    @Query("SELECT * FROM patients WHERE name LIKE '%' || :query || '%' OR mobile LIKE '%' || :query || '%'")
     fun searchPatients(query: String): Flow<List<Patient>>
 }
