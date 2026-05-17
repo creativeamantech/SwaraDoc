@@ -18,3 +18,4 @@ build_info.log
 gradle_debug.log
 app/build/
 scaffold.py
+app-debug.apk
