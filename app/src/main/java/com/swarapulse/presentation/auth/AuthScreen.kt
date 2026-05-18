@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -26,42 +27,45 @@ fun AuthScreen(
     val authState by viewModel.authState.collectAsState()
     val enteredPin by viewModel.enteredPin.collectAsState()
 
-    if (authState == AuthState.SUCCESS) {
-        onNavigateToDashboard()
-        return
+    LaunchedEffect(authState) {
+        if (authState == AuthState.SUCCESS) {
+            onNavigateToDashboard()
+        }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        val titleText = when (authState) {
-            AuthState.SETUP_PIN -> "Setup PIN"
-            AuthState.CONFIRM_PIN -> "Confirm PIN"
-            AuthState.ENTER_PIN -> "Enter PIN"
-            else -> ""
+    if (authState != AuthState.SUCCESS) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            val titleText = when (authState) {
+                AuthState.SETUP_PIN -> "Setup PIN"
+                AuthState.CONFIRM_PIN -> "Confirm PIN"
+                AuthState.ENTER_PIN -> "Enter PIN"
+                else -> ""
+            }
+
+            Text(
+                text = titleText,
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            PinDots(pinLength = enteredPin.length)
+
+            Spacer(modifier = Modifier.height(48.dp))
+
+            PinKeypad(
+                onDigitClick = { viewModel.enterDigit(it) },
+                onDeleteClick = { viewModel.deleteDigit() }
+            )
         }
-
-        Text(
-            text = titleText,
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        PinDots(pinLength = enteredPin.length)
-
-        Spacer(modifier = Modifier.height(48.dp))
-
-        PinKeypad(
-            onDigitClick = { viewModel.enterDigit(it) },
-            onDeleteClick = { viewModel.deleteDigit() }
-        )
     }
 }
 
