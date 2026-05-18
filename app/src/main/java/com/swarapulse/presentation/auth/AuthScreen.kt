@@ -3,6 +3,7 @@ package com.swarapulse.presentation.auth
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -33,7 +34,14 @@ fun AuthScreen(
         }
     }
 
-    if (authState != AuthState.SUCCESS) {
+    if (authState == AuthState.INITIAL) {
+        Box(
+            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else if (authState != AuthState.SUCCESS) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
