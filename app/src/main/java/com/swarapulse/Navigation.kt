@@ -1,11 +1,14 @@
 package com.swarapulse
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.swarapulse.presentation.MainScreen
 import com.swarapulse.presentation.analytics.AnalyticsScreen
 import com.swarapulse.presentation.appointments.AppointmentsScreen
 import com.swarapulse.presentation.auth.AuthScreen
@@ -17,21 +20,47 @@ import com.swarapulse.presentation.visit.VisitFormScreen
 
 @Composable
 fun SwaraPulseNavigation() {
-    val navController = rememberNavController()
+    val rootNavController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "auth") {
+    NavHost(navController = rootNavController, startDestination = "auth") {
         composable("auth") {
             AuthScreen(onNavigateToDashboard = {
-                navController.navigate("dashboard") {
+                rootNavController.navigate("main") {
                     popUpTo("auth") { inclusive = true }
+                    launchSingleTop = true
                 }
             })
         }
 
+        composable("main") {
+            MainScreen(
+                rootNavController = rootNavController,
+                onNavigateToVisitForm = { patientId ->
+                    rootNavController.navigate("visit_form/$patientId")
+                }
+            )
+        }
+
+        composable(
+            route = "visit_form/{patientId}",
+            arguments = listOf(navArgument("patientId") { type = NavType.LongType })
+        ) {
+            VisitFormScreen(onNavigateBack = { rootNavController.popBackStack() })
+        }
+    }
+}
+
+@Composable
+fun MainNavGraph(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    onNavigateToVisitForm: (Long) -> Unit
+) {
+    NavHost(navController = navController, startDestination = "dashboard", modifier = modifier) {
         composable("dashboard") {
             DashboardScreen(
                 onNavigateToPatientList = { navController.navigate("patients") },
-                onNavigateToNewVisit = { navController.navigate("visit_form/-1") },
+                onNavigateToNewVisit = { onNavigateToVisitForm(-1L) },
                 onNavigateToAppointments = { navController.navigate("appointments") }
             )
         }
@@ -48,13 +77,6 @@ fun SwaraPulseNavigation() {
             arguments = listOf(navArgument("patientId") { type = NavType.LongType })
         ) {
             PatientDetailScreen(onNavigateBack = { navController.popBackStack() })
-        }
-
-        composable(
-            route = "visit_form/{patientId}",
-            arguments = listOf(navArgument("patientId") { type = NavType.LongType })
-        ) {
-            VisitFormScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable("appointments") {
