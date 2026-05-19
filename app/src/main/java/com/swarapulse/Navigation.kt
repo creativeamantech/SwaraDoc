@@ -13,6 +13,7 @@ import com.swarapulse.presentation.analytics.AnalyticsScreen
 import com.swarapulse.presentation.appointments.AppointmentsScreen
 import com.swarapulse.presentation.auth.AuthScreen
 import com.swarapulse.presentation.dashboard.DashboardScreen
+import com.swarapulse.presentation.patients.AddPatientScreen
 import com.swarapulse.presentation.patients.PatientDetailScreen
 import com.swarapulse.presentation.patients.PatientListScreen
 import com.swarapulse.presentation.settings.SettingsScreen
@@ -68,8 +69,12 @@ fun MainNavGraph(
         composable("patients") {
             PatientListScreen(
                 onNavigateToPatientDetail = { id -> navController.navigate("patient_detail/$id") },
-                onNavigateToNewPatient = { /* TODO Add new patient dialog/screen */ }
+                onNavigateToNewPatient = { navController.navigate("patient_new") }
             )
+        }
+
+        composable("patient_new") {
+            AddPatientScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable(
